@@ -15,12 +15,11 @@ public class UserService {
 
     public void createUser(UserCreateRequest req) {
         // User 객체 생성
-        User user = new User(); // User Entity 리팩토링 후 매개변수 생성자로 수정
-
-        // req 값을 user에 복사
-        user.setEmail(req.getEmail());
-        user.setNickname(req.getNickname());
-        user.setPassword(req.getPassword());    // encode 필요
+        User user = new User(
+                req.getEmail(),
+                req.getNickname(),
+                req.getPassword()   // encode 필요
+        );
 
         // 데이터 저장
         userRepository.save(user);
