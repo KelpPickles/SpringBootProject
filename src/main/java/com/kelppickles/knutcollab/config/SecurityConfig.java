@@ -22,7 +22,8 @@ public class SecurityConfig {
             // Http 요청에 대한 권한 설정
             auth.requestMatchers(HttpMethod.POST, "/users") // /users에 대한 POST 요청 지정
                     .permitAll()    // 해당 경로에 대해 누구나 접근 가능.
-                    .anyRequest().authenticated();  // 위 요청을 제외한 나머지는 모두 로그인 필요
+//                    .anyRequest().authenticated();  // 위 요청을 제외한 나머지는 모두 로그인 필요
+                    .anyRequest().permitAll();
         });
 
         // 위 보안 규칙을 SecurityFilterChain 객체로 만들어 반환.
