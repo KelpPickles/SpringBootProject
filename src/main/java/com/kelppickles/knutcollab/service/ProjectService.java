@@ -5,6 +5,8 @@ import com.kelppickles.knutcollab.entity.Project;
 import com.kelppickles.knutcollab.dto.ProjectCreateRequest;
 import com.kelppickles.knutcollab.repository.ProjectRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,8 +28,12 @@ public class ProjectService {
         projectRepository.save(project);
     }
 
-    public List<Project> getProjects() {
-        return projectRepository.findAll();
+    public Page<Project> getProjects(String keyword, Pageable pageable) {
+        if (keyword == null || keyword.isEmpty()) {
+            return projectRepository.findAll(pageable);
+        }
+
+        return projectRepository.findByTitleContaining(keyword, pageable);
     }
 
     public Project getProject(Long id) {

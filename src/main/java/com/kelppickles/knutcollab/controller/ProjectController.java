@@ -5,6 +5,8 @@ import com.kelppickles.knutcollab.dto.ProjectUpdateRequest;
 import com.kelppickles.knutcollab.entity.Project;
 import com.kelppickles.knutcollab.service.ProjectService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,8 +22,9 @@ public class ProjectController {
     }
 
     @GetMapping("/projects")
-    public List<Project> getProject() {
-        return projectService.getProjects();
+    public Page<Project> getProject(@RequestParam(required = false) String keyword,
+                                    Pageable pageable) {
+        return projectService.getProjects(keyword, pageable);
     }
 
     @GetMapping("/projects/{id}")
