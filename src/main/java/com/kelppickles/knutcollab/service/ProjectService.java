@@ -3,14 +3,12 @@ package com.kelppickles.knutcollab.service;
 import com.kelppickles.knutcollab.dto.ProjectUpdateRequest;
 import com.kelppickles.knutcollab.entity.Project;
 import com.kelppickles.knutcollab.dto.ProjectCreateRequest;
+import com.kelppickles.knutcollab.entity.ProjectStatus;
 import com.kelppickles.knutcollab.repository.ProjectRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -22,7 +20,7 @@ public class ProjectService {
                 request.getTitle(),
                 request.getDescription(),
                 request.getMaxMember(),
-                request.getStatus()
+                ProjectStatus.RECRUITING
         );
 
         projectRepository.save(project);

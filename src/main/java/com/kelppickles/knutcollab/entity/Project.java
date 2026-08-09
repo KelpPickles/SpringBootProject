@@ -14,7 +14,7 @@ public class Project {
             String title,
             String description,
             Integer maxMember,
-            String status
+            ProjectStatus status
     ) {
         this.title = title;
         this.description = description;
@@ -35,13 +35,14 @@ public class Project {
     @Column(nullable = false)
     private Integer maxMember;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private String status;
+    private ProjectStatus status;
 
     public void update(String title,
                        String description,
                        Integer maxMember,
-                       String status) {
+                       ProjectStatus status) {
         this.title = title;
         this.description = description;
         this.maxMember = maxMember;

@@ -5,6 +5,7 @@ import com.kelppickles.knutcollab.dto.ProjectCreateRequest;
 import com.kelppickles.knutcollab.dto.ProjectUpdateRequest;
 import com.kelppickles.knutcollab.entity.Project;
 import com.kelppickles.knutcollab.service.ProjectService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,7 +17,7 @@ public class ProjectController {
     private final ProjectService projectService;
 
     @PostMapping("/projects")
-    public ApiResponse<Long> createProject(@RequestBody ProjectCreateRequest request) {
+    public ApiResponse<Long> createProject(@Valid @RequestBody ProjectCreateRequest request) {
         return new ApiResponse<>(true, projectService.createProject(request));
     }
 
