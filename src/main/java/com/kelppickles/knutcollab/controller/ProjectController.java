@@ -1,5 +1,6 @@
 package com.kelppickles.knutcollab.controller;
 
+import com.kelppickles.knutcollab.response.ApiResponse;
 import com.kelppickles.knutcollab.dto.ProjectCreateRequest;
 import com.kelppickles.knutcollab.dto.ProjectUpdateRequest;
 import com.kelppickles.knutcollab.entity.Project;
@@ -9,37 +10,37 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequiredArgsConstructor
 public class ProjectController {
     private final ProjectService projectService;
 
     @PostMapping("/projects")
-    public void createProject(@RequestBody ProjectCreateRequest request) {
-        projectService.createProject(request);
+    public ApiResponse<Long> createProject(@RequestBody ProjectCreateRequest request) {
+        return new ApiResponse<>(true, projectService.createProject(request));
     }
 
     @GetMapping("/projects")
-    public Page<Project> getProject(@RequestParam(required = false) String keyword,
+    public ApiResponse<Page<Project>> getProjects(@RequestParam(required = false) String keyword,
                                     Pageable pageable) {
-        return projectService.getProjects(keyword, pageable);
+        return new ApiResponse<>(true,
+                projectService.getProjects(keyword, pageable));
     }
 
-    @GetMapping("/projects/{id}")
-    public Project getProject(@PathVariable("id") Long id) {
-        return projectService.getProject(id);
+    @GetMapping("/project/{id}")
+    public ApiResponse<Project> getProject(@PathVariable("id") Long id) {
+        return new ApiResponse<>(true,
+                projectService.getProject(id));
     }
 
-    @PutMapping("/projects/{id}")
-    public void updateProject(@PathVariable("id") Long id,
+    @PutMapping("/project/{id}")
+    public ApiResponse<Long> updateProject(@PathVariable("id") Long id,
                               @RequestBody ProjectUpdateRequest request) {
-        projectService.updateProject(id, request);
+        return new ApiResponse<>(true, projectService.updateProject(id, request));
     }
 
-    @DeleteMapping("/projects/{id}")
-    public void deleteProject(@PathVariable("id") Long id) {
-        projectService.deleteProject(id);
+    @DeleteMapping("/project/{id}")
+    public ApiResponse<Long> deleteProject(@PathVariable("id") Long id) {
+        return new ApiResponse<>(true, projectService.deleteProject(id));
     }
 }

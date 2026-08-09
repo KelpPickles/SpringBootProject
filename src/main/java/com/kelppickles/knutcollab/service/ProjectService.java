@@ -17,7 +17,7 @@ import java.util.Optional;
 public class ProjectService {
     private final ProjectRepository projectRepository;
 
-    public void createProject(ProjectCreateRequest request) {
+    public Long createProject(ProjectCreateRequest request) {
         Project project = new Project(
                 request.getTitle(),
                 request.getDescription(),
@@ -26,6 +26,8 @@ public class ProjectService {
         );
 
         projectRepository.save(project);
+
+        return project.getId();
     }
 
     public Page<Project> getProjects(String keyword, Pageable pageable) {
@@ -42,7 +44,7 @@ public class ProjectService {
                 .orElseThrow(() -> new IllegalArgumentException("프로젝트를 찾을 수 없습니다."));
     }
 
-    public void updateProject(Long id, ProjectUpdateRequest request) {
+    public Long updateProject(Long id, ProjectUpdateRequest request) {
         Project project = getProject(id);
 
         project.update(request.getTitle(),
@@ -51,12 +53,16 @@ public class ProjectService {
                 request.getStatus());
 
         projectRepository.save(project);
+
+        return project.getId();
     }
 
-    public void deleteProject(Long id) {
+    public Long deleteProject(Long id) {
         Project project = getProject(id);
 
         projectRepository.delete(project);
+
+        return project.getId();
     }
 
 }
