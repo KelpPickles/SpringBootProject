@@ -3,6 +3,8 @@ package com.kelppickles.knutcollab.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -22,7 +24,9 @@ public class SecurityConfig {
 
         http.authorizeHttpRequests(auth -> {
             // Http 요청에 대한 권한 설정
-            auth.requestMatchers(HttpMethod.POST, "/users") // /users에 대한 POST 요청 지정
+            auth.requestMatchers(HttpMethod.POST,
+                            "/users",
+                            "/auth/login") // /users에 대한 POST 요청 지정
                     .permitAll()    // 해당 경로에 대해 누구나 접근 가능.
 //                    .anyRequest().authenticated();  // 위 요청을 제외한 나머지는 모두 로그인 필요
                     .anyRequest().permitAll();
@@ -35,5 +39,12 @@ public class SecurityConfig {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public AuthenticationManager authenticationManager(
+            AuthenticationConfiguration configuration
+    ) throws Exception {
+        return configuration.getAuthenticationManager();
     }
 }

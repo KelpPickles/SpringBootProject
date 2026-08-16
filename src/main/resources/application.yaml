@@ -12,3 +12,6 @@ spring:
         dialect: org.hibernate.community.dialect.SQLiteDialect
 
     show-sql: true
+
+jwt:
+  secret: knutcollab-secret-key-super-super-long-kakao-plz
