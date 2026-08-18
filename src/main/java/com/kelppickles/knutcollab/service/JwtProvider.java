@@ -34,4 +34,13 @@ public class JwtProvider {
                 .signWith(secretKey)    // 서명
                 .compact();             // 문자열 형태로 만들기
     }
+
+    public String getEmailFromToken(String token) {
+        return Jwts.parser()
+                .verifyWith(secretKey)
+                .build()
+                .parseSignedClaims(token)
+                .getPayload()
+                .getSubject();
+    }
 }
