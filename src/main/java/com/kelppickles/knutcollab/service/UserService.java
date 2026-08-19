@@ -4,6 +4,7 @@ import com.kelppickles.knutcollab.dto.UserCreateRequest;
 import com.kelppickles.knutcollab.entity.User;
 import com.kelppickles.knutcollab.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -28,5 +29,11 @@ public class UserService {
 
         // 데이터 저장
         userRepository.save(user);
+    }
+
+    public User getUserByEmail(String email) {
+        return userRepository.findByEmail(email)
+                .orElseThrow(() ->
+                        new UsernameNotFoundException(("사용자를 찾을 수 없습니다.")));
     }
 }
