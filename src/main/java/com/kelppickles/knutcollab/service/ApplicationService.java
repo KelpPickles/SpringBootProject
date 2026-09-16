@@ -20,10 +20,10 @@ public class ApplicationService {
     private final ProjectRepository projectRepository;
 
     // 프로젝트 신청 로직
-    public void apply(Long userId, Long projectId) {
+    public void apply(String email, Long projectId) {
 
         // 유저 정보 가져옴
-        User user = userRepository.findById(userId)
+        User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없음."));
 
         // 프로젝트 아이디 가져옴
