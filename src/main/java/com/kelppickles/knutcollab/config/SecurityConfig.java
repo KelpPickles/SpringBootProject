@@ -28,11 +28,12 @@ public class SecurityConfig {
 
         http.authorizeHttpRequests(auth -> {
             // Http 요청에 대한 권한 설정
+
+            // /users POST, /auth/login POST 요청 => 누구나 허용
             auth.requestMatchers(HttpMethod.POST,
                             "/users",
                             "/auth/login") // /users에 대한 POST 요청 지정
-                    .permitAll()    // 해당 경로에 대해 누구나 접근 가능.
-                    .anyRequest().authenticated();  // 위 요청을 제외한 나머지는 모두 로그인 필요
+                    .permitAll();    // 해당 경로에 대해 누구나 접근 가능.
 
             // 명시적으로 유저가 USER 권한을 소유해야 프로젝트 생성 가능을 지정
             // (UserDetailsServiceImpl.class 에서 authorities 지정 중.)
@@ -41,6 +42,9 @@ public class SecurityConfig {
                     HttpMethod.POST,
                     "/projects"
             ).hasAuthority("USER");
+
+            // 그 외 모든 요청 => 로그인 필요
+            auth.anyRequest().authenticated();
         });
 
         http.addFilterBefore(
